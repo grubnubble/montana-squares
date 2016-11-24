@@ -117,6 +117,15 @@
         //remove squares from the DOM
         squareList.on('child_removed', function(snapshot) {
             $('#' + snapshot.key).remove();
+            if (snapshot.val().user == userId){
+                squareList.push({
+                    x: snapshot.val().x,
+                    y: snapshot.val().y,
+                    color: color,
+                    user: userId,
+                    name: person
+                });
+            }
         })
 
 
