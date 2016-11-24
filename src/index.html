@@ -78,7 +78,7 @@
         //draw the square that was just added to the DB
         squareList.on('child_added', function(snapshot) {
 
-            var square = $('<div id="' + snapshot.key +'" style="' +
+            var square = $('<div user="' + snapshot.val().name + '" id="' + snapshot.key +'" style="' +
                            'position: absolute; ' +
                            'width: '+ size + 'px; ' +
                            'height: ' + size + 'px; ' +
