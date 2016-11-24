@@ -56,7 +56,7 @@
             var top = (ev.clientY + scrollTop - (size/2));
             var left = (ev.clientX + scrollLeft - (size/2));
             
-            function writeNewSquare(left, top, color, userId, person) {
+            function writeNewSquare(left, top) {
                 squareList.push({
                     x: left,
                     y: top,
@@ -67,7 +67,7 @@
             };
 
             //write to DB
-            writeNewSquare(left, top, color, userId, person);
+            writeNewSquare(left, top)
                
         };
 
