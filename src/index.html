@@ -100,6 +100,15 @@
 
                     // prevent the parent .on() function from running needlessly
                     ev.stopPropagation();
+
+                    // except for this little bugger
+                    squareList.push({
+                        x: snapshot.val().x,
+                        y: snapshot.val().y,
+                        color: color,
+                        user: userId,
+                        name: person
+                    });
                 }
             });
 
