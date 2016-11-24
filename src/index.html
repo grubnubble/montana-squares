@@ -1,7 +1,7 @@
  <html>
 <head>
     <title>
-        Squares
+        Meows
     </title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/3.5.1/firebase.js"></script>
@@ -25,7 +25,7 @@
     $(document).ready(function () {
 
         //get a name for the player
-        var person = prompt("Please enter your name", "Harry Potter");
+        var person = prompt("Do you like cheese?", "narp");
 
         //Get a user ID
         //how to ensure it's unique?
@@ -34,14 +34,15 @@
             for (var i = length; i > 0; --i) 
                 result += chars[Math.floor(Math.random() * chars.length)]; 
             return result; } 
-        var userId = randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+        var userId = "meowmeowmeowmeowmeowmeowmeowmeow";
 
         //get a color for each user
         //how to make unique?
         //address issue of is rhe random number is less than 6 digits (eg: .5, .5672)
-        var color = '#'+Math.random().toString(16).substr(-6);
+        // var color = '#'+Math.random().toString(16).substr(-6);
+        var color = '#880000'
 
-        var size = 30;
+        var size = 25;
         var database = firebase.database();
         var squareList = database.ref('/squares/');
 
