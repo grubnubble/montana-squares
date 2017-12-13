@@ -24,27 +24,43 @@
 
     $(document).ready(function () {
 
+        //---------set up some variables---------
+        //define clickArea as BOM (Browser Object Model aka window)
+        var clickArea = window;
+        var database = firebase.database();
+        var squareList = database.ref('/squares/');
+        //get a color for each user
+        //    where did i pick this line of code up again? understand it/give credit
+        //    how to make unique?
+        //    address issue of if the random number is less than 6 digits (eg: .5, .5672)
+        var color = '#'+Math.random().toString(16).substr(-6);
+        //size of the squares to be drawn
+        var size = 30;
         //get a name for the player
         var person = prompt("Please enter your name", "Harry Potter");
 
-        //Get a user ID
+
+        //---------functions---------
+        //create a rando number for the user ID
         //how to ensure it's unique?
         function randomString(length, chars) { 
             var result = ''; 
             for (var i = length; i > 0; --i) 
                 result += chars[Math.floor(Math.random() * chars.length)]; 
             return result; } 
-        var userId = randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
 
-        //get a color for each user
-        //how to make unique?
-        //address issue of is rhe random number is less than 6 digits (eg: .5, .5672)
-        var color = '#'+Math.random().toString(16).substr(-6);
+        //create a square object that is pushed to an array squareList, which will be pushed to the DB
+        function writeNewSquare(left, top, color, userId) {
+                squareList.push({
+                    x: left,
+                    y: top,
+                    color: color,
+                    user: userId,
+                    name: person
+                });
+        };
 
-        var size = 30;
-        var database = firebase.database();
-        var squareList = database.ref('/squares/');
-
+        // get the position for the square and create a square object
         function handleClick (ev) {
             //Handle coordinates from scrolling; not robust for all browsers
             var scrollTop = window.pageYOffset //|| docElem.scrollTop || body.scrollTop
@@ -55,23 +71,11 @@
             var top = (ev.clientY + scrollTop - (size/2));
             var left = (ev.clientX + scrollLeft - (size/2));
             
-            function writeNewSquare(left, top, color, userId, person) {
-                squareList.push({
-                    x: left,
-                    y: top,
-                    color: color,
-                    user: userId,
-                    name: person
-                });
-            };
-
-            //write to DB
             writeNewSquare(left, top, color, userId, person);
-               
-        };
+        }
 
-        //define clickArea as BOM (Browser Object Model aka window)
-        var clickArea = window;
+        //---------do what we came here to do!---------
+        var userId = randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
         clickArea.addEventListener('click', handleClick);
 
         //draw the square that was just added to the DB
@@ -86,7 +90,7 @@
                            'left: ' + snapshot.val().x + 'px;"' +
                            '></div>');
 
-            //as long as the square doesn't already exist, draw it
+            //as long as the square doesn't already exist, draw it on screen
             if ($('#' + snapshot.key).length == 0) {
                 $('body').append(square);
             };
